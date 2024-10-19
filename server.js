@@ -1,9 +1,14 @@
 import express from "express"
 import mongoose from "mongoose"
 import dotenv from 'dotenv'
+import userRouter from './Routes/userRouter.js'
 
 dotenv.config()
 const app = express()
+
+app.use(express.json());
+
+app.use('/api/v1/users', userRouter)
 
 // Database Connecting
 
