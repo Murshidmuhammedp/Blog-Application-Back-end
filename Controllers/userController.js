@@ -67,6 +67,7 @@ export const signIn = async (req, res, next) => {
             return res.status(401).json({ message: "Invalid username or password" });
         }
 
+        // Generate JWT
         const token = Jwt.sign({ id: validUser._id }, process.env.USER_JWT_SECRET_KEY);
         const { password: hashedPassword, ...rest } = validUser._doc;
         const expiryDate = new Date(Date.now() + 60 * 1000);
