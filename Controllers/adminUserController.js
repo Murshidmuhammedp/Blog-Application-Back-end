@@ -1,6 +1,6 @@
 import Users from "../Models/userSchema.js";
 
-export const ViewallUser = async (req, res, next) => {
+export const getallUser = async (req, res, next) => {
 
     try {
         const User = await Users.find().select('-password');

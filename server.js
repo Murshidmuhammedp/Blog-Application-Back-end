@@ -3,14 +3,16 @@ import mongoose from "mongoose"
 import dotenv from 'dotenv'
 import userRouter from './Routes/userRoutes.js'
 import adminRouter from './Routes/adminRoutes.js'
+import blogRouter from './Routes/blogRoutes.js'
 
 dotenv.config()
 const app = express()
 
 app.use(express.json());
 
-app.use('/api/v1/users', userRouter)
-app.use('/api/v1/admin', adminRouter)
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/blogs', blogRouter);
 
 // Database Connecting
 
