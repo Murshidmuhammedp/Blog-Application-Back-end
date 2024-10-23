@@ -1,10 +1,10 @@
 import Joi from "joi";
 
 const userjoi = Joi.object({
-    full_name: Joi.string().min(2).max(30).required(),
+    FullName: Joi.string().required(),
     email: Joi.string().email().required(),
-    designation: Joi.string().required(),
-    password: Joi.string().min(3).required()
+    Designation: Joi.string().required(),
+    Password: Joi.string().min(6).required()
 });
 
 export default userjoi;

@@ -9,24 +9,24 @@ export const signUp = async (req, res, next) => {
         const { value, error } = userjoi.validate(req.body);
 
         if (error) {
-            return res.status(409).json({ Details: error });
+            return res.status(409).json({  Details: error, });
         };
 
-        const { full_name, email, designation, password } = value;
+        const { FullName, email, Designation, Password } = value;
 
         // Check if user already exists
         const existingUser = await Users.findOne({ email });
 
         if (existingUser) {
-            return res.status(409).json({ message: "E-mail already registered" });
+            return res.status(200).json({ message: "E-mail already registered" });
         };
         // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(Password, 10);
         // Create a new user
         const newUser = new Users({
-            full_name,
+            FullName,
             email,
-            designation,
+            Designation,
             password: hashedPassword
         });
 
@@ -42,10 +42,10 @@ export const signUp = async (req, res, next) => {
 
 export const signIn = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, Password } = req.body;
 
         // Basic validation
-        if (!email || !password) {
+        if (!email || !Password) {
             return res.status(400).json({ message: 'Email and password are required' });
         }
         // Check if user exists
@@ -54,19 +54,19 @@ export const signIn = async (req, res, next) => {
         if (!validUser) {
             return res.status(401).json({ message: "User not found" });
         };
-
-        //  Check the user block or not
-        if (validUser.isDeleted == true) {
-            return res.status(400).json({ message: "Your account is suspended" });
-        };
-
+    
         // Compare passwords
-        const validpassword = await bcrypt.compareSync(password, validUser.password);
+        const validpassword = await bcrypt.compareSync(Password, validUser.password);
         // Check the password valid or not
         if (!validpassword) {
             return res.status(401).json({ message: "Invalid username or password" });
         }
-
+        
+        //  Check the user block or not
+        if (validUser.isDeleted == true) {
+            return res.status(400).json({ message: "Your account is suspended" });
+        };
+        
         // Generate JWT
         const token = Jwt.sign({ id: validUser._id }, process.env.USER_JWT_SECRET_KEY);
         const { password: hashedPassword, ...rest } = validUser._doc;
