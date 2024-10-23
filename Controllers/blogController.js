@@ -9,20 +9,21 @@ export const blogCreate = async (req, res, next) => {
         const { value, error } = blogjoi.validate(req.body);
 
         if (error) {
-            return res.status(409).json({ success: false, message: "Validation error", details: error.details });
+            return res.status(409).json({ message: "Validation error", details: error });
         };
 
-        const { title, content, auther_name, category } = value;
+        const { BlogTitle, Date, Category, AuthorName, ParagraphTitle, Description } = value
 
         const newBlog = new Blogs({
-            title,
-            content,
-            auther_name,
-            category,
+            BlogTitle,
+            Date,
+            Category,
+            AuthorName,
+            ParagraphTitle,
+            Description,
             image: req.cloudinaryImageUrl
         });
 
-        // Save the user
         await newBlog.save();
 
         return res.status(201).json({ message: "Blog added successfully", data: newBlog });
@@ -49,12 +50,12 @@ export const getAllBlogs = async (req, res, next) => {
 export const getBlogById = async (req, res, next) => {
     try {
         const Id = req.params.Id;
-        
+
         if (!Id) {
             return res.status(404).json({ message: "Id not provided" });
         };
 
-        const blog =await Blogs.findById(Id);
+        const blog = await Blogs.findById(Id);
         if (!blog) {
             return res.status(404).json({ success: false, message: "Blog not found" });
         }
