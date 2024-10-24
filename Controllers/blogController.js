@@ -68,7 +68,7 @@ export const getBlogById = async (req, res, next) => {
 
 export const updateBlog = async (req, res, next) => {
     try {
-        const Id = req.params.Id;
+        const Id = req.params.id;
         if (!Id) {
             return res.status(404).json({ message: "Id not provided" });
         };
