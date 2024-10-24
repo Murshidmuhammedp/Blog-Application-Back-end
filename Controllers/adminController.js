@@ -5,13 +5,11 @@ dotenv.config();
 export const adminLogin = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-
-        // Basic validation
+        
         if (!email || !password) {
             return res.status(400).json({ message: 'Email and password are required' });
         }
 
-        // Authentication
         if (process.env.ADMIN_EMAIL === email && process.env.ADMIN_PASSWORD === password) {
             // Generate JWT
             const token = Jwt.sign({ email }, process.env.ADMIN_JWT_SECRET_KEY);

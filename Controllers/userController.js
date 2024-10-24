@@ -43,12 +43,11 @@ export const signUp = async (req, res, next) => {
 export const signIn = async (req, res, next) => {
     try {
         const { email, Password } = req.body;
-
-        // Basic validation
+        
         if (!email || !Password) {
             return res.status(400).json({ message: 'Email and password are required' });
         }
-        // Check if user exists
+    
         const validUser = await Users.findOne({ email });
 
         if (!validUser) {

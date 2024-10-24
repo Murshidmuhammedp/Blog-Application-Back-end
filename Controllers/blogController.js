@@ -6,13 +6,11 @@ import Blogs from "../Models/blogSchema.js";
 export const blogCreate = async (req, res, next) => {
     try {
 
-        const { value, error } = blogjoi.validate(req.body);
+        const { BlogTitle, Date, Category, AuthorName, ParagraphTitle, Description } = req.body
 
-        if (error) {
-            return res.status(409).json({ message: "Validation error", details: error });
-        };
-
-        const { BlogTitle, Date, Category, AuthorName, ParagraphTitle, Description } = value
+        if (!BlogTitle || !Date || !AuthorName || !ParagraphTitle || !Description) {
+            return res.status(400).json({ message: "Please provide all required fields" });
+        }
 
         const newBlog = new Blogs({
             BlogTitle,
@@ -75,14 +73,16 @@ export const updateBlog = async (req, res, next) => {
             return res.status(404).json({ message: "Id not provided" });
         };
 
-        const { title, content, auther_name, category } = req.body;
+        const { BlogTitle, Date, Category, AuthorName, ParagraphTitle, Description } = req.body;
 
         const updatedField = {};
-        if (title) updatedField.title = title
-        if (content) updatedField.content = content
-        if (auther_name) updatedField.auther_name = auther_name
+        if (BlogTitle) updatedField.BlogTitle = BlogTitle
+        if (Date) updatedField.Date = Date
+        if (Category) updatedField.Category = Category
         if (req.cloudinaryImageUrl) updatedField.image = req.cloudinaryImageUrl
-        if (category) updatedField.category = category
+        if (AuthorName) updatedField.AuthorName = AuthorName
+        if (ParagraphTitle) updatedField.ParagraphTitle = ParagraphTitle
+        if (Description) updatedField.Description = Description
 
         const updatedBlog = await Blogs.findByIdAndUpdate(
             Id,
