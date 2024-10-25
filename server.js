@@ -11,9 +11,19 @@ const app = express()
 
 app.use(express.json());
 
+// app.use(cors({
+//     // origin: "http://localhost:3000",
+//     origin: "https://blog-app-future-tech.vercel.app",
+//     credentials: true
+// }));
+
 app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
+    origin: [
+        "https://blog-app-future-tech.vercel.app",
+        "https://blog-application-front-9k1wqwz4b-murshidmuhammedps-projects.vercel.app/"
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use('/api/v1/users', userRouter);
