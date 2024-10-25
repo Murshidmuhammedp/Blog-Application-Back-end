@@ -70,7 +70,7 @@ export const updateBlog = async (req, res, next) => {
     try {
         const Id = req.params.id;
         if (!Id) {
-            return res.status(404).json({ message: "Id not provided" });
+            return res.status(404).json({ message: "Id not provided" }); 
         };
 
         const { BlogTitle, Date, Category, AuthorName, ParagraphTitle, Description } = req.body;
